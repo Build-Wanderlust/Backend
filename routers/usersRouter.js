@@ -19,17 +19,19 @@ router.post('/register', (req, res) => {
   let user = req.body;
   const hash = bcrypt.hashSync(user.password, 10); 
   user.password = hash;
+  console.log(user);
+  console.log(hash);
 
   Users.add(user)
     .then(saved => {
       const token = generateToken(saved);
+      console.log(saved);
       res.status(201).json({
-        user: saved,
-        token
+        user: saved
       });
     })
     .catch(error => {
-      res.status(500).json(error);
+      res.status(500).json({ message: error });
     });
 });
 
@@ -58,7 +60,6 @@ router.post('/login', (req, res) => {
 
 function generateToken(user) {
   const payload = {
-    sub: user.id,
     username: user.username
   }
 
