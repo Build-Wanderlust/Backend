@@ -19,14 +19,17 @@ router.post('/register', (req, res) => {
   let user = req.body;
   const hash = bcrypt.hashSync(user.password, 10); 
   user.password = hash;
-  console.log(user);
-  console.log(hash);
 
+  /// adds user to the database
   Users.add(user)
     .then(saved => {
-      console.log(saved);
+
+      /// creates token for the user
+      const token = generateToken(saved);
+
       res.status(201).json({
-        user: saved
+        user: saved,
+        token
       });
     })
     .catch(error => {
@@ -60,6 +63,7 @@ router.post('/login', (req, res) => {
 
 function generateToken(user) {
   const payload = {
+    sub: user.id,
     username: user.username
   }
 
@@ -67,7 +71,7 @@ function generateToken(user) {
     expiresIn: '1d'
   }
 
-  return jwt.sign(payload, process.env.JWT_SECRET, options)
+  return jwt.sign(payload, secret = process.env.JWT_SECRET || 'Wanderlust Secrets', options)
 }
 
 module.exports = router;
