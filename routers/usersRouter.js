@@ -4,6 +4,17 @@ const bcrypt = require('bcryptjs');
 const Users = require('../helpers/usersModel.js');
 const jwt = require('jsonwebtoken');
 
+
+router.get('/', (req, res) => {
+  Users.find()
+    .then(users => {
+      res.json(users);
+    })
+    .catch(err => {
+      res.status(400).json({ message: err });
+    })
+})
+
 router.post('/register', (req, res) => {
   let user = req.body;
   const hash = bcrypt.hashSync(user.password, 10); 
