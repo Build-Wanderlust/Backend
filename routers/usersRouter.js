@@ -4,36 +4,50 @@ const bcrypt = require('bcryptjs');
 const Users = require('../helpers/usersModel.js');
 const jwt = require('jsonwebtoken');
 
+
+router.get('/', (req, res) => {
+  Users.find()
+    .then(users => {
+      res.json(users);
+    })
+    .catch(err => {
+      res.status(400).json({ message: err });
+    })
+})
+
 router.post('/register', (req, res) => {
   let user = req.body;
   const hash = bcrypt.hashSync(user.password, 10); 
   user.password = hash;
 
+  /// adds user to the database
   Users.add(user)
     .then(saved => {
+
+      /// creates token for the user
       const token = generateToken(saved);
+
       res.status(201).json({
         user: saved,
         token
       });
     })
     .catch(error => {
-      res.status(500).json(error);
+      res.status(500).json({ message: error });
     });
 });
 
 router.post('/login', (req, res) => {
-  let { username, password } = req.body;
+  let { email, password } = req.body;
 
-  Users.findBy({ username })
+  Users.findBy({ email })
     .first()
     .then(user => {
       if (user && bcrypt.compareSync(password, user.password)) {
-
-        const token = generateToken(saved);
+        const token = generateToken(user);
 
         res.status(200).json({
-          message: `Welcome ${user.username}!`,
+          message: `Welcome ${user.firstname}!`,
           token
         });
       } else {
@@ -48,7 +62,7 @@ router.post('/login', (req, res) => {
 function generateToken(user) {
   const payload = {
     sub: user.id,
-    username: user.username
+    username: user.email
   }
 
   const options = {
