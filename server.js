@@ -21,7 +21,7 @@ server.use('/api/users', userRouter);
 /// main get endpoint
 
 server.get('/', (req, res) => {
-    res.send("Welcome to Wanderlust API")
+    res.send("<h1>Welcome to Wanderlust API</h1>")
 });
 
 module.exports = server;
