@@ -4,6 +4,7 @@ const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
 const userRouter = require('./routers/usersRouter')
+const experienceRouter = require('./routers/experiencesRouter')
 
 
 const server = express();
@@ -17,6 +18,7 @@ server.use(cors());
 /// applying endpoint routers
 
 server.use('/api/users', userRouter);
+server.use('/api/experiences', experienceRouter);
 
 /// main get endpoint
 

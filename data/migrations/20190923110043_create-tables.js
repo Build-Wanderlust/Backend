@@ -9,9 +9,11 @@ exports.up = function(knex) {
         })
         .createTable('experiences', tbl => {
             tbl.increments('id');
+            tbl.integer('user_id').references('id').inTable('users');
             tbl.string('title', 128).notNullable();
             tbl.string('summary', 700).notNullable();
-            
+            tbl.string('imgUrl', 255);
+
         })
 )};
 
