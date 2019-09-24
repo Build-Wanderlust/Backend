@@ -9,10 +9,11 @@ module.exports = {
 /// knex SQL functions for the users database
 
 function find() {
-    return db('users').select('id', 'username', 'password');
+    return db('users').select('id', 'firstname', 'lastname', 'email', 'password');
 }
 
 function findBy(filter) {
+    console.log(filter)
     return db('users').where(filter);
 }
 

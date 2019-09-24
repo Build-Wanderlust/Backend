@@ -33,23 +33,21 @@ router.post('/register', (req, res) => {
       });
     })
     .catch(error => {
-      console.log(error)
       res.status(500).json({ message: error });
     });
 });
 
 router.post('/login', (req, res) => {
-  let { username, password } = req.body;
+  let { email, password } = req.body;
 
-  Users.findBy({ username })
+  Users.findBy({ email })
     .first()
     .then(user => {
       if (user && bcrypt.compareSync(password, user.password)) {
-
-        const token = generateToken(saved);
+        const token = generateToken(user);
 
         res.status(200).json({
-          message: `Welcome ${user.username}!`,
+          message: `Welcome ${user.firstname}!`,
           token
         });
       } else {
@@ -64,14 +62,14 @@ router.post('/login', (req, res) => {
 function generateToken(user) {
   const payload = {
     sub: user.id,
-    username: user.username
+    username: user.email
   }
 
   const options = {
     expiresIn: '1d'
   }
 
-  return jwt.sign(payload, secret = process.env.JWT_SECRET || 'Wanderlust Secrets', options)
+  return jwt.sign(payload, process.env.JWT_SECRET, options)
 }
 
 module.exports = router;
