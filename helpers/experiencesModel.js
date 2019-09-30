@@ -16,6 +16,7 @@ function findById(id) {
 }
 
 function add(experience) {
+    console.log(experience)
     return db('experiences')
         .insert(experience, 'id')
         .then(ids => {

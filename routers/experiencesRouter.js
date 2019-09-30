@@ -17,20 +17,12 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
   let experience = req.body;
-
-  const { title, 
-          description, 
-          backgroundImg, 
-          location, 
-          share, 
-          ratings, 
-          reviews, 
-          faveIt
-        } = experience;
+  console.log(req.body)
 
   /// adds experience to the database
   Experiences.add(experience)
     .then(saved => {
+      console.log(saved)
 
       res.status(201).json({
         experience: saved
