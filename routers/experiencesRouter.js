@@ -15,4 +15,30 @@ router.get('/', (req, res) => {
     })
 })
 
+router.post('/', (req, res) => {
+  let experience = req.body;
+
+  const { title, 
+          description, 
+          backgroundImg, 
+          location, 
+          share, 
+          ratings, 
+          reviews, 
+          faveIt
+        } = experience;
+
+  /// adds experience to the database
+  Experiences.add(experience)
+    .then(saved => {
+
+      res.status(201).json({
+        experience: saved
+      });
+    })
+    .catch(error => {
+      res.status(500).json({ message: error });
+    });
+});
+
 module.exports = router;
