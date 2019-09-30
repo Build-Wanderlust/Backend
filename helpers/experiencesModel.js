@@ -2,7 +2,9 @@ const db = require('../data/dbConfig.js');
 
 module.exports = {
     find,
-    add
+    add,
+    change,
+    remove
 }
 /// knex SQL functions for the experiences database
 
@@ -24,3 +26,27 @@ function add(experience) {
             return findById(id);
         });
     }
+
+function change(experience_id, experience) {
+    
+    return db('experiences')
+        .where({id: experience_id})
+        .update(
+        {...experience},
+        )
+        .then(ids => {
+            const [id] = ids;
+            return findById(id);
+        })
+    }
+
+const remove = async (experience_id, experience) => {
+    const deleted = await findById(experience_id);
+  
+    await db('experiences')
+      .where({id: experience_id})
+      .first()
+      .del()
+  
+    return deleted.title;
+  };
