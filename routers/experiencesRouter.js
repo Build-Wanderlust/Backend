@@ -4,8 +4,23 @@ const bcrypt = require('bcryptjs');
 const Experiences = require('../helpers/experiencesModel.js');
 const jwt = require('jsonwebtoken');
 
+const verifyToken = (req, res, next) => {
+  const token = req.headers.authorization;
 
-router.get('/', (req, res) => {
+  jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
+    if(err) {
+      res
+        .status(401)
+        .json({ message: "You are not logged in correctly and are without a token."})
+    }
+    else {
+      req.decodedToken = decodedToken;
+      next();
+    }
+  });
+};
+
+router.get('/', verifyToken, (req, res) => {
   Experiences.find()
     .then(exp => {
       res.json(exp);
@@ -15,7 +30,7 @@ router.get('/', (req, res) => {
     })
 })
 
-router.post('/', (req, res) => {
+router.post('/', verifyToken, (req, res) => {
   let experience = req.body;
   console.log(req.body)
 
@@ -32,5 +47,6 @@ router.post('/', (req, res) => {
       res.status(500).json({ message: error });
     });
 });
+
 
 module.exports = router;
