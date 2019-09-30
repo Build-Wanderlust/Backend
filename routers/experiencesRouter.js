@@ -49,47 +49,47 @@ router.post('/', verifyToken, (req, res) => {
     });
 });
 
-router.put('/:id', verifyToken, (req, res) => {
-  Experiences.findById(req.params.id)
-    .then(experience => {
-      if(!experience){
-        res
-          .status(404)
-          .json({
-            message: "Can't change an experience that isn't there."
-          });
-      }
-    })
-    Experiences.change(req.params.id, {...req.body})
-      .then(experience => {
-        res
-          .status(200)
-            .json(experience)
-      })
-});
+// router.put('/:id', verifyToken, (req, res) => {
+//   Experiences.findById(req.params.id)
+//     .then(experience => {
+//       if(!experience){
+//         res
+//           .status(404)
+//           .json({
+//             message: "Can't change an experience that isn't there."
+//           });
+//       }
+//     })
+//     Experiences.change(req.params.id, {...req.body})
+//       .then(experience => {
+//         res
+//           .status(200)
+//             .json(experience)
+//       })
+// });
 
-router.delete('/:id', verifyToken, (req, res) => {
-  Experiences.findById(req.params.id)
-    .then(experience => {
-      if(!experience){
-        res
-          .status(404)
-          .json({
-            message: "Can't delete an experience that isn't there."
-          });
-      }
-      else {
-      Experiences.remove(req.params.id)
-          .then(experience => {
-            res
-              .status(200)
-              .json({
-                message: `This experience: '${experience}', was deleted.`
-              })
-          })
-      }
-    })
-});
+// router.delete('/:id', verifyToken, (req, res) => {
+//   Experiences.findById(req.params.id)
+//     .then(experience => {
+//       if(!experience){
+//         res
+//           .status(404)
+//           .json({
+//             message: "Can't delete an experience that isn't there."
+//           });
+//       }
+//       else {
+//       Experiences.remove(req.params.id)
+//           .then(experience => {
+//             res
+//               .status(200)
+//               .json({
+//                 message: `This experience: '${experience}', was deleted.`
+//               })
+//           })
+//       }
+//     })
+// });
 
 
 module.exports = router;
