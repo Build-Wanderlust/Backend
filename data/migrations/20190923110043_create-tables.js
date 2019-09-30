@@ -12,7 +12,6 @@ exports.up = function(knex) {
             tbl.string('title', 128).notNullable();
             tbl.string('description', 700).notNullable();
             tbl.string('backgroundImg', 255).notNullable();
-            tbl.string('reviews', 128).notNullable();
             tbl.string('location', 128).notNullable();
             tbl.string('share', 128);
             tbl.integer('ratings', 10).notNullable();
