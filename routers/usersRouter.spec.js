@@ -22,9 +22,10 @@ describe("usersRouter", () => {
     })
     describe("POST /users/register", () => {
         it("should return 201 when registering a user", () => {
+            const user = { firstname: "test", lastname: "testlast", email: "tyler@123125gmail.com", password: "1234cmon" }
             return request(server)
                 .post("/api/users/register")
-                .send({ firstname: "test", lastname: "testlast", email: "tyler@12344gmail.com", password: "1234cmon" })
+                .send(user)
                 .then(res => {
                     expect(res.status).toBe(201)
                 })
