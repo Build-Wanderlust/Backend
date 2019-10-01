@@ -13,6 +13,11 @@ module.exports = {
     seeds: {
       directory: './data/seeds'
     },
+    testing: {
+      client: 'sqlite3',
+      connection: {
+        filename: './data/test.db3',
+      },
     // needed when using foreign keys
     pool: {
       afterCreate: (conn, done) => {
