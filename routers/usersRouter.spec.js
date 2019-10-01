@@ -20,4 +20,14 @@ describe("usersRouter", () => {
                 })
         })
     })
+    describe("POST /users/register", () => {
+        it("should return 201 when registering a user", () => {
+            return request(server)
+                .post("/api/users/register")
+                .send({ firstname: "test", lastname: "testlast", email: "tyler@12344gmail.com", password: "1234cmon" })
+                .then(res => {
+                    expect(res.status).toBe(201)
+                })
+        });
+    })    
 });
